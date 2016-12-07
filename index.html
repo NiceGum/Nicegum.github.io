@@ -23,5 +23,22 @@
  <p>Special thanks to Stefam and Jackie Sham-WOW!!! for this weared C++ website. ._.<p>
     <p> My cancerious youtube... <a href="https://www.youtube.com/user/thr0ps"> Visit if u want :)<p>
       
-     
-    
+from pyobjus import autoclass
+from pyobjus.dylib_manager import load_framework, INCLUDE
+import sys
+
+load_framework(INCLUDE.AVFoundation)
+AVAudioPlayer = autoclass("AVAudioPlayer")
+NSURL = autoclass("NSURL")
+NSString = autoclass("NSString")
+
+fn = NSString.alloc().initWithUTF8String_(sys.argv[1])
+url = NSURL.alloc().initFileURLWithPath_(fn)
+
+audioplayer = AVAudioPlayer.alloc().initWithContentsOfURL_error_(url, None)
+audioplayer.play()
+
+while audioplayer.playing:
+    sys.stdout.write("\raudioplayer: {} {}".format(
+        audioplayer.currentTime, audioplayer.duration))
+    sys.stdout.flush()
